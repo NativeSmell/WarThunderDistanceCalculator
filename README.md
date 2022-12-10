@@ -9,3 +9,8 @@ Press Middle Mouse Button to calculate distance between you and Squad Mark. (In 
 
 
 If you see, what disntance isn't work fine. Try to check in "set scale manualy" and enter the distance to Scale field 
+
+
+# To download
+
+> https://disk.yandex.ru/d/S99Wt6OtqR_BQQ
