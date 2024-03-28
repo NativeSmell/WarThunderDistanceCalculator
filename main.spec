@@ -2,11 +2,11 @@
 
 
 a = Analysis(
-    ['main.py'],
+    ['D:/PythonProjects/PyQT/WarThunderDistanceCalculator/main.py'],
     pathex=[],
     binaries=[],
     datas=[],
-    hiddenimports=['xml.etree.ElementTree,sklearn'],
+    hiddenimports=['xml.etree.ElementTree', 'sklearn'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -31,6 +31,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon=['D:\\PythonProjects\\PyQT\\WarThunderDistanceCalculator\\assets\\map.ico'],
 )
 coll = COLLECT(
     exe,

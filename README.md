@@ -13,9 +13,9 @@ If you see, what disntance isn't work fine. Try to check in "set scale manualy" 
 
 # To download
 
-> https://disk.yandex.ru/d/S99Wt6OtqR_BQQ
+> [Yandex Disk](https://disk.yandex.ru/d/gWIqBfLfL-Ku1Q)
 
-> https://drive.google.com/file/d/14zhPAg9OwGeJdgpTx3HFjUJPts9uOyPl/view?usp=share_link
+> [Google Drive](https://drive.google.com/drive/folders/1GhDjcshl1R_Cz3V8B3iUbwpMJxyac2LP?usp=sharing)
 
 
 # For create exe:
