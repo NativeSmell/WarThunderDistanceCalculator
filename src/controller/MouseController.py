@@ -4,7 +4,7 @@ from threading import Thread
 
 class MouseControllerPredictor:
 
-    def __init__(self, predictor, params, button="Button.middle", alt_button="Key.alt_l", friend_button="Key.ctrl_l", output=print, _input=input, status=print):
+    def __init__(self, predictor, params, button="Button.middle", alt_button="Key.alt_l", friend_button="Key.ctrl_l", output=print, _input=input, status=print, coords_output=print):
         self.button = button
         self.alt_button = alt_button
         self.friend_button = friend_button
@@ -17,6 +17,9 @@ class MouseControllerPredictor:
         self.altPressed = False
         self.friendPressed = False
 
+        self.setCoords = False
+        self.coords_output = coords_output
+        
     def start(self):
         self.isPaused = False
 
@@ -32,6 +35,12 @@ class MouseControllerPredictor:
     def set_status(self, status):
         self.status = status
 
+    def set_coords(self,status):
+        self.setCoords = status
+
+    def set_coords_output(self, output):
+        self.coords_output = output
+    
     def make_prediction(self, x, y):
         sleep(0.15)
         result = self.predictor(pyautogui.screenshot(), distance=int(self.input()),
@@ -44,6 +53,9 @@ class MouseControllerPredictor:
         if not self.isPaused and pressed and str(button) == self.button:
             x = Thread(target=self.make_prediction, args=[x, y])
             x.start()
+        if self.setCoords and self.altPressed:
+            self.coords_output(f"{x},{y}")
+            self.setCoords = False
 
     def on_press(self, key):
         self.status(str(key) + " keyboard pressed")

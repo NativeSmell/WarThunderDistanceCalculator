@@ -20,23 +20,44 @@ class DigitRecognizer:
             result += [el] * (len(temp[temp == 0]))
         return result
 
+    def find_square(self, lines):
+        result = []
+        for l in lines:
+            if l[0] == l[2]:
+                temp_lines = lines[lines[:, 0 ] != lines[:, 2], 0:2]
+                temp_lines[:,0] = l[0]
+                result += temp_lines.tolist()
+
+        return np.array(result)
+    
     def calculate_scale_line(self, img):
         gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-        edges = cv2.Canny(gray, 100, 100, apertureSize=3)
-        minLineLength = img.shape[-1] // 2
+        edges = cv2.Canny(gray, 100, 100, apertureSize=5)
+        
+        minLineLength = img.shape[0] * 0.975
+        maxLineGap = img.shape[0] * .1
         lines = cv2.HoughLinesP(image=edges, rho=1, theta=np.pi / 180, threshold=100,
-                                lines=np.array([]), minLineLength=minLineLength, maxLineGap=80)
+                                lines=np.array([]), minLineLength=minLineLength,
+                                maxLineGap=maxLineGap)
 
         if lines is None:
             return -1
 
-        lines = lines[lines[:, :, 0] == lines[:, :, 2]]
+        lines = lines[(lines[:, :, 0] == lines[:, :, 2]) | (lines[:, :, 1] == lines[:, :, 3])]
         dists = []
+        
+        cross = self.find_square(lines)
+    
+        for cr in cross:
+            np.abs(np.sum(cross - cr, axis = -1))
+            dists += np.abs(np.sum(cross - cr, axis = -1)).tolist()
+        
+        # for x,y in lines[:, 0:2]:
+        #     dists += list(np.abs(lines[:, 0] - x))
+        #     dists += list(np.abs(lines[:, 1] - y))
+        
 
-        for x in np.unique(lines[:, 0]):
-            dists += list(np.abs(lines[:, 0] - x))
-
-        dists = list(filter(lambda el: 20 < el < img.shape[0] // 2, dists))
+        dists = list(filter(lambda el: img.shape[0] // 8 < el < img.shape[0] // 2, dists))
         dists = self.check_dists_on_seasons(dists)
 
         return max(set(dists), key=dists.count) if len(dists) else -1

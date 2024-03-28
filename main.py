@@ -28,7 +28,6 @@ if __name__ == "__main__":
     with open('target_assets/target_map.npy', 'rb') as f:
         target_template = np.load(f)
 
-
     params = ParamsReader()
     params.load_params()
 
@@ -56,7 +55,7 @@ if __name__ == "__main__":
                                              digit_recognizer,
                                              player_detector,
                                              saving_path,
-                                             save_history=params.get_param("save_history", str))
+                                             params)
 
     mouseController = MouseControllerPredictor(distance_calculator, params,
                                                button="Button.middle",

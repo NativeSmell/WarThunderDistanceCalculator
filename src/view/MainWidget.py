@@ -30,8 +30,11 @@ class MainWidget(QWidget):
         self.button.setToolTip('<b>Start</b> button starts listening to the mouse')
         self.button.setIcon(self.powerOn)
         self.button.setIconSize(QSize(125, 125))
+        self.scale_is_manual.setChecked(True)
         self.scale_is_manual.toggled.connect(self.checkBoxClicked)
         self.distance_label.setValidator(QIntValidator(-1, 999, self))
+        self.distance_label.setText(str(225))
+        
         self.checkBoxClicked()
 
         dist_label = QLabel("""

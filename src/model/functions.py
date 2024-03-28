@@ -1,4 +1,4 @@
-import cv2
+import cv2, os
 import numpy as np
 from datetime import datetime
 from PyQt5.QtGui import QPixmap, QImage
@@ -8,6 +8,10 @@ from PyQt5.QtCore import Qt
 def get_date():
     return datetime.now().strftime("%m_%d_%Y_%H_%M_%S_%f")
 
+
+def check_dir(path):
+    if not os.path.exists(path):
+        os.mkdir(path)
 
 def noize_filter(digit):
     top = np.vstack((np.zeros((1, 28, 3)), digit[:-1, :, :]))
@@ -51,11 +55,11 @@ def add_dummy(img, size):
 
 
 def crop_image(y_from, y_to, x_from, x_to, img):
-    y_from_abs = int((y_from * img.shape[0]))
-    y_to_abs = int((y_to * img.shape[0]))
+    y_from_abs = int((y_from))
+    y_to_abs = int((y_to))
 
-    x_from_abs = int((x_from * img.shape[1]))
-    x_to_abs = int((x_to * img.shape[1]))
+    x_from_abs = int((x_from))
+    x_to_abs = int((x_to))
 
     return img[y_from_abs:y_to_abs,
            x_from_abs:x_to_abs].copy()

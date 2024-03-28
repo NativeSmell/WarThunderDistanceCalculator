@@ -1,6 +1,7 @@
 import sys, os
 from src.view.MainWidget import *
-from PyQt5.QtWidgets import QMainWindow, QApplication, QDesktopWidget
+from src.view.SettingsDialog import *
+from PyQt5.QtWidgets import QMainWindow, QApplication, QDesktopWidget, QToolBar, QAction, QDialog
 from PyQt5.QtGui import QIcon
 
 from src.controller.MouseController import *
@@ -26,8 +27,24 @@ class MainView(QMainWindow):
         self.setWindowTitle('WarThunderDistanceFucker')
         self.setWindowIcon(QIcon('assets/icon.png'))
 
+        toolbar = QToolBar("MainToolBar")
+        self.addToolBar(toolbar)
+
+        button_action = QAction("Settings", self)
+        button_action.triggered.connect(self.setMapCoords)
+        toolbar.addAction(button_action)
+        
         self.show()
 
+    
+    def setMapCoords(self, s):
+        
+        print(self.params)
+        dlg = SettingsDialog(self)
+        dlg.exec()
+        
+        self.params.save_params()
+    
     def center(self):
 
         qr = self.frameGeometry()

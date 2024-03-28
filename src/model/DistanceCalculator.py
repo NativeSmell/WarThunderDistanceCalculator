@@ -3,21 +3,33 @@ from src.model.functions import *
 
 class DistanceCalculator:
 
-    def __init__(self, target_detector, digit_recognizer, player_detector, path, save_history="yes"):
+    def __init__(self, target_detector, digit_recognizer, player_detector, path, params):
         self.target_detector = target_detector
         self.digit_recognizer = digit_recognizer
         self.player_detector = player_detector
         self.path = path
         self.date = None
-        self.img_to_show = None
-        self.save_history = save_history
-
+        self.img_to_show = None 
+        self.params = params
+        
+        self.y_from, self.y_to = 994 / 1440, 1422 / 1440
+        self.x_from, self.x_to = 2113 / 2560, 2543 / 2560
+    
+    def set_map_coords_from_param(self):
+        left_top = self.params.get_param("top_left_corner")
+        
+        if not type(left_top) is None:
+            self.x_from, self.y_from = map(int,str(left_top).split(","))
+            
+        bottom_right = self.params.get_param("bottom_right_corner")
+        
+        if not type(bottom_right) is None:
+            self.x_to, self.y_to = map(int,str(bottom_right).split(","))
+            
     def crop_minimap(self, img):
-        y_from, y_to = 994 / 1440, 1422 / 1440
-        x_from, x_to = 2113 / 2560, 2543 / 2560
 
-        crop_map = crop_image(y_from, y_to, x_from, x_to, img)
-        if self.save_history == "yes":
+        crop_map = crop_image(self.y_from, self.y_to, self.x_from, self.x_to, img)
+        if self.params.get_param("save_history", _type = str) == "yes":
             cv2.imwrite(self.path + f'{self.date}_crop_map.png', cv2.cvtColor(crop_map, cv2.COLOR_RGB2BGR))
 
         return crop_map
@@ -27,11 +39,8 @@ class DistanceCalculator:
         if x_y is None:
             return None
 
-        y_from, y_to = 994 / 1440, 1422 / 1440
-        x_from, x_to = 2113 / 2560, 2543 / 2560
-
-        y_from_abs = x_y[1] - int((y_from * img.shape[0]))
-        x_from_abs = x_y[0] - int((x_from * img.shape[1]))
+        y_from_abs = x_y[1] - int((self.y_from))
+        x_from_abs = x_y[0] - int((self.x_from))
 
         return x_from_abs, y_from_abs
 
@@ -65,7 +74,7 @@ class DistanceCalculator:
         scale, digits = self.digit_recognizer(crop, w)
 
         if scale != -1:
-            if self.save_history == "yes":
+            if self.params.get_param("save_history", _type = str) == "yes":
                 cv2.imwrite(self.path + f'{self.date}_digits_{scale}.png', np.hstack(digits))
 
         return scale, w
@@ -73,7 +82,7 @@ class DistanceCalculator:
     def draw_and_save_to_show(self, x_p, y_p, x_t, y_t, w_p, h_p, w_t, h_t):
         cv2.line(self.img_to_show, (x_p + w_p // 2, y_p + h_p // 2), (x_t + w_t // 2, y_t + h_t // 2), (255, 0, 0),
                  thickness=1)
-        if self.save_history == "yes":
+        if self.params.get_param("save_history", _type = str) == "yes":
             cv2.imwrite(self.path + f'{self.date}_show.png', cv2.cvtColor(self.img_to_show, cv2.COLOR_RGB2BGR))
 
 
@@ -94,9 +103,14 @@ class DistanceCalculator:
     def run(self, img, distance=-1, x_y=None, from_friend=False):
         img = np.array(img)
         self.date = get_date()
-        if self.save_history == "yes":
+        
+        check_dir(self.path)
+        
+        if self.params.get_param("save_history", _type = str) == "yes":
             cv2.imwrite(self.path + f'{self.date}_full.png', cv2.cvtColor(img, cv2.COLOR_RGB2BGR))
 
+        self.set_map_coords_from_param()
+        
         crop_map = self.crop_minimap(img)
         self.img_to_show = crop_map.copy()
 
@@ -116,7 +130,7 @@ class DistanceCalculator:
         angle = cal_angle(north_line, distance)
         azimuth = self.cal_azimuth(angle, (x_p + w_p // 2) - (x_t + w_t // 2), (y_p + h_p // 2) - (y_t + h_t // 2))
 
-        if self.save_history == "yes":
+        if self.params.get_param("save_history", _type = str) == "yes":
             with open(self.path + f"{self.date}.txt", "wt") as f:
                 f.write(f"{x_p=}\n{y_p=}\n{w_p=}\n{h_p=}\n")
                 f.write(f"{x_t=}\n{w_t=}\n{y_t=}\n{h_t=}\n")
