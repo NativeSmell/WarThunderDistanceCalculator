@@ -46,7 +46,7 @@ class MainView(QMainWindow):
     def swapMode(self, button):
         self.useSmall = not self.useSmall
         button.setText("Big" if self.useSmall else "Tiny")
-        self.setWindowFlag(Qt.WindowStaysOnBottomHint, not self.useSmall)               
+        #self.setWindowFlag(Qt.WindowStaysOnBottomHint, not self.useSmall)               
         self.setWindowFlag(Qt.WindowStaysOnTopHint, self.useSmall)
         
         self.setCentralWidget(MainWidget(self, useSmall=self.useSmall))
