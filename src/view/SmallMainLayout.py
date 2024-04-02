@@ -9,7 +9,7 @@ class SmallMainLayout():
     
     def initLayout(self):
         
-        self.widget.main.setFixedSize(190, 150)
+        self.widget.main.setFixedSize(175, 125)
         self.widget.button.setIconSize(QSize(20, 20))
         
         dist_label = QLabel("""
