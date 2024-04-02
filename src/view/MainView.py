@@ -3,6 +3,7 @@ from src.view.MainWidget import *
 from src.view.SettingsDialog import *
 from PyQt5.QtWidgets import QMainWindow, QApplication, QDesktopWidget, QToolBar, QAction, QDialog
 from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import Qt 
 
 from src.controller.MouseController import *
 
@@ -14,15 +15,16 @@ class MainView(QMainWindow):
 
         self.mouseController = mouseController
         self.params = params
+        
+        self.useSmall = False
+        self.ready_status = False
         self.initUI()
-
 
     def initUI(self):
         self.statusBar().showMessage('Ready')
 
-        self.setCentralWidget(MainWidget(self))
-
-        self.setFixedSize(750, 600)
+        self.setCentralWidget(MainWidget(self, useSmall=self.useSmall))
+        
         self.center()
         self.setWindowTitle('WarThunderDistanceFucker')
         self.setWindowIcon(QIcon('assets/icon.png'))
@@ -30,14 +32,28 @@ class MainView(QMainWindow):
         toolbar = QToolBar("MainToolBar")
         self.addToolBar(toolbar)
 
+        button_mode = QAction("Tiny", self)
         button_action = QAction("Settings", self)
-        button_action.triggered.connect(self.setMapCoords)
+        
+        button_mode.triggered.connect(lambda x: self.swapMode(button_mode))
+        button_action.triggered.connect(self.settings)
+        toolbar.addAction(button_mode)
         toolbar.addAction(button_action)
         
         self.show()
 
     
-    def setMapCoords(self, s):
+    def swapMode(self, button):
+        self.useSmall = not self.useSmall
+        button.setText("Big" if self.useSmall else "Tiny")
+        self.setWindowFlag(Qt.WindowStaysOnBottomHint, not self.useSmall)               
+        self.setWindowFlag(Qt.WindowStaysOnTopHint, self.useSmall)
+        
+        self.setCentralWidget(MainWidget(self, useSmall=self.useSmall))
+        
+        self.show()
+        
+    def settings(self, s):
         
         print(self.params)
         dlg = SettingsDialog(self)
