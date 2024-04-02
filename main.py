@@ -16,6 +16,24 @@ from src.view.MainView import *
 from pynput.mouse import Listener
 from pynput.keyboard import Listener as KeyboardListener
 
+from PyQt5.QtGui import QPalette, QColor
+
+
+palette = QPalette()
+palette.setColor(QPalette.Window, QColor(53, 53, 53))
+palette.setColor(QPalette.WindowText, Qt.white)
+palette.setColor(QPalette.Base, QColor(25, 25, 25))
+palette.setColor(QPalette.AlternateBase, QColor(53, 53, 53))
+palette.setColor(QPalette.ToolTipBase, Qt.black)
+palette.setColor(QPalette.ToolTipText, Qt.white)
+palette.setColor(QPalette.Text, Qt.white)
+palette.setColor(QPalette.Button, QColor(53, 53, 53))
+palette.setColor(QPalette.ButtonText, Qt.white)
+palette.setColor(QPalette.BrightText, Qt.red)
+palette.setColor(QPalette.Link, QColor(42, 130, 218))
+palette.setColor(QPalette.Highlight, QColor(42, 130, 218))
+palette.setColor(QPalette.HighlightedText, Qt.black)
+
 if __name__ == "__main__":
 
     saving_path = "history_data/"
@@ -64,8 +82,13 @@ if __name__ == "__main__":
 
     with KeyboardListener(on_press=mouseController.on_press, on_release=mouseController.on_release) as k_listener:
         with Listener(on_click=mouseController.on_click) as listener:
+                        
             app = QApplication(sys.argv)
             app.aboutToQuit.connect(params.save_params)
             ex = MainView(mouseController, params)
+                        
+            app.setStyle("Fusion")
+            app.setPalette(palette)
+            
             sys.exit(app.exec_())
 
