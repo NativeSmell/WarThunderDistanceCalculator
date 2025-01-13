@@ -28,4 +28,5 @@ If you see, what disntance isn't work fine. Try to check in "set scale manualy" 
 # For support
 
 > RU: 2200700632664024
+> 
 > PayPal: zausalin2@gmail.com
