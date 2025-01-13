@@ -23,3 +23,9 @@ If you see, what disntance isn't work fine. Try to check in "set scale manualy" 
 # For create exe:
 
 > pyinstaller --noconfirm --onedir --windowed --icon "D:/PythonProjects/PyQT/WarThunderDistanceCalculator/assets/map.ico" --hidden-import "xml.etree.ElementTree" --hidden-import "sklearn"  "D:/PythonProjects/PyQT/WarThunderDistanceCalculator/main.py"
+
+
+# For support
+
+> RU: 2200700632664024
+> PayPal: zausalin2@gmail.com
