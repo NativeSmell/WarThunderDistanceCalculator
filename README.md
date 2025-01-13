@@ -1,5 +1,7 @@
 # WarThunderDistanceCalculator
 
+Click on green button to start! After click you may see - button will change color into the red. If you click again (on red button) programm will stoped. Also, if programm dont work correctly please try to start up it with admin
+
 Press Middle Mouse Button to calculate distance between you and Squad Mark. (In War Thunder you need change a Squad Mark button to Middle Mouse Button too)
 
 > Middle Button + Left Alt: Distance between you and Cursor (put cursor on map)
