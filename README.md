@@ -4,7 +4,7 @@ Click on green button to start! After click you may see - button will change col
 
 Press Middle Mouse Button to calculate distance between you and Squad Mark. (In War Thunder you need change a Squad Mark button to Middle Mouse Button too)
 
-> Middle Button + Left Alt: Distance between you and Cursor (put cursor on map)
+> Middle Button + Left Alt (May be Shift + Alt. see on controll settings): Distance between you and Cursor (put cursor on map)
 
 
 > Middle Button + Left Ctrl: Distance between your team mate and Squad Mark (if you use this with Left alt: Distance between your team mate and Cursor)
